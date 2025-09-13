@@ -15,7 +15,7 @@ public class Main {
     public static final String LIST_CONTACTS  = "LC";
     public static final String QUIT           = "Q";
     public static final String GET_BY_NUMBER  = "GN";
-    public static final String EXISTS_DUP_NUMBERS = "EN";
+    public static final String EXISTS_DUP_NUMBERS = "EP";
 
     //Constantes que definem as mensagens para o utilizador
     public static final String CONTACT_EXISTS = "contactBook.Contact already exists.";
@@ -173,12 +173,8 @@ public class Main {
     }
 
     private static void existsPhoneNumbers(ContactBook cBook) {
-        if (true) {
-            System.out.println("example text");
-        /*
         if (cBook.severalPhones()) {//new function: checks if exist contacts with same num
             System.out.println(EXISTS_SHARED_NUMBERS);
-        */
         }
         else System.out.println(ALL_NUMBERS_DIFFERENT);
     }
