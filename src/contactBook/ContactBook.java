@@ -1,9 +1,6 @@
 package contactBook;
 
-import contactBook.Contact;
-
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 public class ContactBook {
     static final int DEFAULT_SIZE = 100;
@@ -11,11 +8,13 @@ public class ContactBook {
     private int counter;
     private Contact[] contacts;
     private int currentContact;
+    private final Map<Integer, List<Contact>> contactsByNumber;
 
     public ContactBook() {
         counter = 0;
         contacts = new Contact[DEFAULT_SIZE];
         currentContact = -1;
+        contactsByNumber = new HashMap<>();
     }
 
     //Pre: name != null
@@ -23,7 +22,7 @@ public class ContactBook {
         return searchIndex(name) >= 0;
     }
 
-    public boolean hasContact(int phone) { return getContactByNumber(phone) != null; }
+    public boolean hasContact(int phone) { return getName(phone) != null; }
 
     public int getNumberOfContacts() {
         return counter;
@@ -33,17 +32,31 @@ public class ContactBook {
     public void addContact(String name, int phone, String email) {
         if (counter == contacts.length)
             resize();
-        contacts[counter] = new Contact(name, phone, email);
+
+        Contact newContact = new Contact(name, phone, email);
+        contacts[counter] = newContact;
         counter++;
+
+        if(contactsByNumber.containsKey(phone))
+            contactsByNumber.get(phone).add(newContact);
+        else {
+            List<Contact> list = new ArrayList<>();
+            list.add(newContact);
+            contactsByNumber.put(phone, list);
+        }
     }
 
     //Pre: name != null && hasContact(name)
     public void deleteContact(String name) {
         int index = searchIndex(name);
+        Contact oldContact = contacts[index]; //save old contact
         for(int i=index; i<counter; i++)
             contacts[i] = contacts[i+1];
         counter--;
+
+        contactsByNumber.get(oldContact.getPhone()).remove(oldContact);
     }
+
     //Pre: name != null && hasContact(name)
     public int getPhone(String name) {
         return contacts[searchIndex(name)].getPhone();
@@ -53,9 +66,6 @@ public class ContactBook {
     public String getEmail(String name) {
         return contacts[searchIndex(name)].getEmail();
     }
-
-    //pre: phone != null && hasContact(name)
-    public String getName(int phone) { return getContactByNumber(phone).getName(); }
 
     //Pre: name != null && hasContact(name)
     public void setPhone(String name, int phone) {
@@ -67,7 +77,7 @@ public class ContactBook {
         contacts[searchIndex(name)].setEmail(email);
     }
 
-    private Contact getContactByNumber(int phone){
+    public String getName(int phone){
         int index = 0;
         while(index<counter && contacts[index].getPhone() != phone){
             index++;
@@ -75,7 +85,7 @@ public class ContactBook {
         if(index == counter){
             return null;
         }
-        return contacts[index];
+        return contacts[index].getName();
     }
 
     private int searchIndex(String name) {
