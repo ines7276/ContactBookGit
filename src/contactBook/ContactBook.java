@@ -22,7 +22,7 @@ public class ContactBook {
         return searchIndex(name) >= 0;
     }
 
-    public boolean hasContact(int phone) { return getName(phone) != null; }
+    public boolean hasContact(int phone) { return contactsByNumber.containsKey(phone); }
 
     public int getNumberOfContacts() {
         return counter;
@@ -89,16 +89,11 @@ public class ContactBook {
         contacts[searchIndex(name)].setEmail(email);
     }
 
-    public String getName(int phone){
-        int index = 0;
-        while(index<counter && contacts[index].getPhone() != phone){
-            index++;
-        }
-        if(index == counter){
-            return null;
-        }
-        return contacts[index].getName();
-    }
+    //Pre: phone != null && hasContact(phone)
+   public String getName(int phone) {
+          return contactsByNumber.get(phone).get(0).getName();
+   }
+
 
     private int searchIndex(String name) {
         int i = 0;
@@ -135,11 +130,12 @@ public class ContactBook {
 
     public boolean severalPhones (){
         Iterator<Integer> allnumbers = contactsByNumber.keySet().iterator();
-        int i = 0;
-        while(allnumbers.hasNext() && contactsByNumber.get(allnumbers.next()).size() <= 1){
-            i++;
+        boolean repeated = false;
+        while(allnumbers.hasNext() && !repeated){
+            if(contactsByNumber.get(allnumbers.next()).size() > 1){
+                repeated = true;
+            }
         }
-
-        return i < counter;
+        return repeated;
     }
 }
