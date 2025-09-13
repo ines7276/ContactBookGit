@@ -14,6 +14,8 @@ public class Main {
     public static final String SET_EMAIL      = "SE";
     public static final String LIST_CONTACTS  = "LC";
     public static final String QUIT           = "Q";
+    public static final String GET_BY_NUMBER  = "GN";
+    public static final String EXISTS_DUP_NUMBERS = "EN";
 
     //Constantes que definem as mensagens para o utilizador
     public static final String CONTACT_EXISTS = "contactBook.Contact already exists.";
@@ -24,6 +26,9 @@ public class Main {
     public static final String BOOK_EMPTY = "contactBook.Contact book empty.";
     public static final String QUIT_MSG = "Goodbye!";
     public static final String COMMAND_ERROR = "Unknown command.";
+    public static final String PHONE_NOT_EXIST = "Phone number does not exist.";
+    public static final String EXISTS_SHARED_NUMBERS = "There are contacts that share phone numbers.";
+    public static final String ALL_NUMBERS_DIFFERENT = "All contacts have different phone numbers.";
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -52,6 +57,12 @@ public class Main {
                     break;
                 case LIST_CONTACTS:
                     listAllContacts(cBook);
+                    break;
+                case GET_BY_NUMBER:
+                    getContactByNumber(in, cBook);
+                    break;
+                case EXISTS_DUP_NUMBERS:
+                    existsPhoneNumbers(cBook);
                     break;
                 default:
                     System.out.println(COMMAND_ERROR);
@@ -141,10 +152,37 @@ public class Main {
         if (cBook.getNumberOfContacts() != 0) {
             cBook.initializeIterator();
             while( cBook.hasNext() ) {
-                Contact c = cBook.next();
-                System.out.println(c.getName() + "; " + c.getEmail() + "; " + c.getPhone());
+                printContact(cBook.next());
             }
         }
         else System.out.println(BOOK_EMPTY);
+    }
+
+    //new functions:
+    private static void getContactByNumber(Scanner in, ContactBook cBook) {
+        int phone = in.nextInt(); in.nextLine();
+        if (true) {
+            System.out.println("example text");
+        /*
+        if (cBook.hasContact(phone)) { //override of hasContact with int instead of name
+            printContact(cBook.getContact(phone));//getContact: get contact by num
+        */
+        }
+        else System.out.println(PHONE_NOT_EXIST);
+    }
+
+    private static void existsPhoneNumbers(ContactBook cBook) {
+        if (true) {
+            System.out.println("example text");
+        /*
+        if (cBook.severalPhones()) {//new function: checks if exist contacts with same num
+            System.out.println(EXISTS_SHARED_NUMBERS);
+        */
+        }
+        else System.out.println(ALL_NUMBERS_DIFFERENT);
+    }
+
+    private static void printContact(Contact c) {
+        System.out.println(c.getName() + "; " + c.getEmail() + "; " + c.getPhone());
     }
 }
