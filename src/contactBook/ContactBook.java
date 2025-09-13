@@ -109,7 +109,7 @@ public class ContactBook {
     }
 
     private void resize() {
-        Contact tmp[] = new Contact[2*contacts.length];
+        Contact[] tmp = new Contact[2*contacts.length];
         for (int i=0;i<counter; i++)
             tmp[i] = contacts[i];
         contacts = tmp;
@@ -129,10 +129,10 @@ public class ContactBook {
     }
 
     public boolean severalPhones (){
-        Iterator<Integer> allnumbers = contactsByNumber.keySet().iterator();
+        Iterator<Integer> allNumbers = contactsByNumber.keySet().iterator();
         boolean repeated = false;
-        while(allnumbers.hasNext() && !repeated){
-            if(contactsByNumber.get(allnumbers.next()).size() > 1){
+        while(allNumbers.hasNext() && !repeated){
+            if(contactsByNumber.get(allNumbers.next()).size() > 1){
                 repeated = true;
             }
         }

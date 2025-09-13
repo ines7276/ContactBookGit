@@ -163,10 +163,11 @@ public class Main {
     private static void getContactByNumber(Scanner in, ContactBook cBook) {
         int phone = in.nextInt(); in.nextLine();
         if (cBook.hasContact(phone)) { //override of hasContact with int instead of name
-            System.out.println(cBook.getName(phone));
+            System.out.println(cBook.getName(phone));//new function: find contact name by phone
         }
         else System.out.println(PHONE_NOT_EXIST);
     }
+
     private static void existsPhoneNumbers(ContactBook cBook) {
         if (cBook.severalPhones()) {//new function: checks if exist contacts with same num
             System.out.println(EXISTS_SHARED_NUMBERS);
