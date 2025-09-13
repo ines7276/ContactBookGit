@@ -132,11 +132,12 @@ public class ContactBook {
 
     public boolean severalPhones (){
         Iterator<Integer> allnumbers = contactsByNumber.keySet().iterator();
-        int i = 0;
-        while(allnumbers.hasNext() && contactsByNumber.get(allnumbers.next()).size() <= 1){
-            i++;
+        boolean repeated = false;
+        while(allnumbers.hasNext() && !repeated){
+            if(contactsByNumber.get(allnumbers.next()).size() > 1){
+                repeated = true;
+            }
         }
-
-        return i < counter;
+        return repeated;
     }
 }
