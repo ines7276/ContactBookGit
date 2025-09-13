@@ -37,13 +37,7 @@ public class ContactBook {
         contacts[counter] = newContact;
         counter++;
 
-        if(contactsByNumber.containsKey(phone))
-            contactsByNumber.get(phone).add(newContact);
-        else {
-            List<Contact> list = new ArrayList<>();
-            list.add(newContact);
-            contactsByNumber.put(phone, list);
-        }
+        addToHash(phone, newContact);
     }
 
     //Pre: name != null && hasContact(name)
@@ -77,12 +71,16 @@ public class ContactBook {
         }
 
         contact.setPhone(phone);
+        addToHash(phone, contact);
+    }
+
+    private void addToHash (int phone, Contact contact) {
         if(contactsByNumber.containsKey(phone))
             contactsByNumber.get(phone).add(contact);
         else {
-            List<Contact> nlist = new ArrayList<>();
-            nlist.add(contact);
-            contactsByNumber.put(phone, nlist);
+            List<Contact> list = new ArrayList<>();
+            list.add(contact);
+            contactsByNumber.put(phone, list);
         }
     }
 
