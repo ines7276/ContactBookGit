@@ -152,7 +152,8 @@ public class Main {
         if (cBook.getNumberOfContacts() != 0) {
             cBook.initializeIterator();
             while( cBook.hasNext() ) {
-                printContact(cBook.next());
+                Contact c = cBook.next();
+                System.out.println(c.getName() + "; " + c.getEmail() + "; " + c.getPhone());
             }
         }
         else System.out.println(BOOK_EMPTY);
@@ -165,7 +166,7 @@ public class Main {
             System.out.println("example text");
         /*
         if (cBook.hasContact(phone)) { //override of hasContact with int instead of name
-            printContact(cBook.getContact(phone));//getContact: get contact by num
+            System.out.println(cBook.getName(phone));
         */
         }
         else System.out.println(PHONE_NOT_EXIST);
@@ -182,7 +183,4 @@ public class Main {
         else System.out.println(ALL_NUMBERS_DIFFERENT);
     }
 
-    private static void printContact(Contact c) {
-        System.out.println(c.getName() + "; " + c.getEmail() + "; " + c.getPhone());
-    }
 }
