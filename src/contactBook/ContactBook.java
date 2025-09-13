@@ -2,6 +2,9 @@ package contactBook;
 
 import contactBook.Contact;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public class ContactBook {
     static final int DEFAULT_SIZE = 100;
 
@@ -93,4 +96,18 @@ public class ContactBook {
         return contacts[currentContact++];
     }
 
+    public boolean severalPhones (){
+        Map<Integer, Contact> allConctacts = new HashMap<>();
+        Contact tmp;
+        boolean repeated = false;
+        int i = 0;
+        while(i < counter && !repeated){
+            tmp = contacts[i];
+            if(allConctacts.put(tmp.getPhone(), tmp) != null) {
+                repeated = true;
+            }
+            i++;
+        }
+        return repeated;
+    }
 }
