@@ -69,7 +69,21 @@ public class ContactBook {
 
     //Pre: name != null && hasContact(name)
     public void setPhone(String name, int phone) {
-        contacts[searchIndex(name)].setPhone(phone);
+        Contact contact = contacts[searchIndex(name)];
+        List<Contact> list = contactsByNumber.get(contact.getPhone());
+        list.remove(contact);
+        if(list.isEmpty()){
+            contactsByNumber.remove(contact.getPhone());
+        }
+
+        contact.setPhone(phone);
+        if(contactsByNumber.containsKey(phone))
+            contactsByNumber.get(phone).add(contact);
+        else {
+            List<Contact> nlist = new ArrayList<>();
+            nlist.add(contact);
+            contactsByNumber.put(phone, nlist);
+        }
     }
 
     //Pre: name != null && hasContact(name)
@@ -122,17 +136,12 @@ public class ContactBook {
     }
 
     public boolean severalPhones (){
-        Map<Integer, Contact> allConctacts = new HashMap<>();
-        Contact tmp;
-        boolean repeated = false;
+        Iterator<Integer> allnumbers = contactsByNumber.keySet().iterator();
         int i = 0;
-        while(i < counter && !repeated){
-            tmp = contacts[i];
-            if(allConctacts.put(tmp.getPhone(), tmp) != null) {
-                repeated = true;
-            }
+        while(allnumbers.hasNext() && contactsByNumber.get(allnumbers.next()).size() <= 1){
             i++;
         }
-        return repeated;
+
+        return i < counter;
     }
 }
